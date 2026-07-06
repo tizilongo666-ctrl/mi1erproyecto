@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAISON AURA — Alta Costura Contemporánea</title>
+<meta name="description" content="MAISON AURA. Prendas esculpidas para quienes habitan la elegancia. Colección Noir Éternel.">
+<style>
+/* ============================================================
+   MAISON AURA — hoja de estilos
+   ============================================================ */
+:root{
+  --bg:        #0b0a09;
+  --bg-soft:   #131110;
+  --bg-card:   #171412;
+  --ink:       #ece5da;
+  --ink-dim:   #9c9288;
+  --gold:      #c9a86a;
+  --gold-soft: #8a744d;
+  --line:      rgba(201,168,106,.18);
+  --serif:     "Didot","Bodoni MT","Playfair Display",Georgia,"Times New Roman",serif;
+  --sans:      "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  overflow-x:hidden;
+  cursor:none;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--gold);color:#0b0a09}
+a{color:inherit;text-decoration:none;cursor:none}
+img{max-width:100%}
+button{cursor:none}
+
+/* ---------- cursor personalizado ---------- */
+.cursor-dot,.cursor-ring{
+  position:fixed;top:0;left:0;pointer-events:none;z-index:9999;
+  border-radius:50%;transform:translate(-50%,-50%);
+}
+.cursor-dot{width:6px;height:6px;background:var(--gold)}
+.cursor-ring{
+  width:36px;height:36px;border:1px solid rgba(201,168,106,.55);
+  transition:width .25s ease,height .25s ease,border-color .25s ease,background .25s ease;
+}
+body.cursor-hover .cursor-ring{
+  width:64px;height:64px;background:rgba(201,168,106,.08);border-color:var(--gold);
+}
+@media (hover:none){.cursor-dot,.cursor-ring{display:none}body,a,button{cursor:auto}}
+
+/* ---------- preloader ---------- */
+#loader{
+  position:fixed;inset:0;background:var(--bg);z-index:9000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;
+  transition:opacity .9s ease,visibility .9s;
+}
+#loader.done{opacity:0;visibility:hidden}
+#loader .mark{
+  font-family:var(--serif);font-size:clamp(2rem,5vw,3.4rem);letter-spacing:.45em;
+  padding-left:.45em;color:var(--ink);
+  animation:loaderPulse 2.2s ease infinite;
+}
+#loader .bar{width:180px;height:1px;background:rgba(201,168,106,.2);overflow:hidden}
+#loader .bar i{display:block;height:100%;width:0;background:var(--gold);transition:width .3s ease}
+@keyframes loaderPulse{0%,100%{opacity:.55}50%{opacity:1}}
+
+/* ---------- navegación ---------- */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:800;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:26px clamp(20px,5vw,64px);
+  transition:background .4s ease,padding .4s ease,border-color .4s ease;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{
+  background:rgba(11,10,9,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  padding-top:14px;padding-bottom:14px;border-bottom-color:var(--line);
+}
+.nav-logo{font-family:var(--serif);font-size:1.25rem;letter-spacing:.4em;padding-left:.4em}
+.nav-logo em{color:var(--gold);font-style:normal}
+.nav-links{display:flex;gap:38px;list-style:none}
+.nav-links a{
+  font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-dim);
+  position:relative;transition:color .3s;
+}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:-6px;width:0;height:1px;background:var(--gold);
+  transition:width .35s ease;
+}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{
+  font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;
+  border:1px solid var(--gold-soft);color:var(--gold);
+  padding:12px 26px;background:transparent;transition:background .35s,color .35s;
+}
+.nav-cta:hover{background:var(--gold);color:#0b0a09}
+@media (max-width:820px){.nav-links{display:none}}
+
+/* ---------- hero ---------- */
+header.hero{
+  position:relative;height:100vh;min-height:640px;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+#stage{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero-veil{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 55%,transparent 30%,rgba(11,10,9,.75) 100%);
+}
+.hero-content{position:relative;z-index:5;text-align:center;pointer-events:none}
+.hero-eyebrow{
+  font-size:.7rem;letter-spacing:.55em;text-transform:uppercase;color:var(--gold);
+  margin-bottom:26px;opacity:0;animation:riseIn 1.2s .4s ease forwards;
+}
+h1.hero-title{
+  font-family:var(--serif);font-weight:400;line-height:.95;
+  font-size:clamp(3.2rem,11vw,9.5rem);letter-spacing:.06em;
+}
+h1.hero-title .row{display:block;overflow:hidden}
+h1.hero-title .row span{
+  display:block;transform:translateY(110%);
+  animation:slideUp 1.3s cubic-bezier(.19,1,.22,1) forwards;
+}
+h1.hero-title .row:nth-child(2) span{animation-delay:.18s;color:transparent;
+  -webkit-text-stroke:1px rgba(236,229,218,.85)}
+.hero-sub{
+  margin-top:30px;font-size:.85rem;letter-spacing:.12em;color:var(--ink-dim);
+  max-width:420px;margin-left:auto;margin-right:auto;line-height:1.8;
+  opacity:0;animation:riseIn 1.2s .9s ease forwards;
+}
+@keyframes slideUp{to{transform:translateY(0)}}
+@keyframes riseIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.hero-scroll{
+  position:absolute;bottom:34px;left:50%;transform:translateX(-50%);z-index:5;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:var(--ink-dim);
+}
+.hero-scroll i{
+  width:1px;height:56px;background:linear-gradient(var(--gold),transparent);
+  display:block;animation:scrollHint 2s ease infinite;transform-origin:top;
+}
+@keyframes scrollHint{0%{transform:scaleY(0)}45%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+.hero-frame{
+  position:absolute;inset:clamp(14px,3vw,34px);border:1px solid rgba(201,168,106,.14);
+  pointer-events:none;z-index:4;
+}
+.hero-corner{position:absolute;width:22px;height:22px;border-color:var(--gold)!important;border-style:solid;border-width:0}
+.hero-corner.tl{top:-1px;left:-1px;border-top-width:1px;border-left-width:1px}
+.hero-corner.tr{top:-1px;right:-1px;border-top-width:1px;border-right-width:1px}
+.hero-corner.bl{bottom:-1px;left:-1px;border-bottom-width:1px;border-left-width:1px}
+.hero-corner.br{bottom:-1px;right:-1px;border-bottom-width:1px;border-right-width:1px}
+
+/* ---------- marquesina ---------- */
+.marquee{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  overflow:hidden;padding:22px 0;background:var(--bg-soft);
+}
+.marquee-track{display:flex;gap:64px;width:max-content;animation:marquee 28s linear infinite}
+.marquee-track span{
+  font-family:var(--serif);font-size:1.05rem;letter-spacing:.35em;text-transform:uppercase;
+  color:var(--ink-dim);white-space:nowrap;display:flex;align-items:center;gap:64px;
+}
+.marquee-track span::after{content:"◆";font-size:.55rem;color:var(--gold)}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* ---------- secciones genéricas ---------- */
+section{padding:clamp(90px,12vw,160px) clamp(20px,6vw,80px);position:relative}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;margin-bottom:clamp(48px,7vw,90px)}
+.kicker{
+  font-size:.65rem;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);
+  display:flex;align-items:center;gap:16px;margin-bottom:20px;
+}
+.kicker::before{content:"";width:44px;height:1px;background:var(--gold-soft)}
+h2.title{
+  font-family:var(--serif);font-weight:400;line-height:1.05;
+  font-size:clamp(2.2rem,5.5vw,4.6rem);letter-spacing:.02em;
+}
+h2.title em{font-style:italic;color:var(--gold)}
+.section-head p{max-width:300px;color:var(--ink-dim);font-size:.82rem;line-height:1.9;letter-spacing:.05em}
+@media (max-width:760px){.section-head{flex-direction:column;align-items:flex-start}}
+
+/* aparición al hacer scroll */
+.reveal{opacity:0;transform:translateY(46px);transition:opacity 1s cubic-bezier(.19,1,.22,1),transform 1s cubic-bezier(.19,1,.22,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* ---------- colección: tarjetas 3D ---------- */
+.grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+  gap:clamp(18px,2.5vw,34px);perspective:1400px;
+}
+.card{
+  position:relative;background:var(--bg-card);border:1px solid var(--line);
+  transform-style:preserve-3d;transition:transform .18s ease-out,border-color .4s;
+  will-change:transform;
+}
+.card:hover{border-color:rgba(201,168,106,.5)}
+.card-visual{position:relative;overflow:hidden;aspect-ratio:3/4}
+.card-visual svg{width:100%;height:100%;display:block;transition:transform .8s cubic-bezier(.19,1,.22,1)}
+.card:hover .card-visual svg{transform:scale(1.07)}
+.card-shine{
+  position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .4s;
+  background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(236,229,218,.10),transparent 45%);
+}
+.card:hover .card-shine{opacity:1}
+.card-tag{
+  position:absolute;top:16px;left:16px;z-index:3;
+  font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);
+  border:1px solid var(--gold-soft);padding:7px 13px;background:rgba(11,10,9,.55);
+  backdrop-filter:blur(6px);transform:translateZ(40px);
+}
+.card-info{
+  padding:22px 22px 26px;display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+  transform:translateZ(28px);
+}
+.card-info h3{font-family:var(--serif);font-weight:400;font-size:1.25rem;letter-spacing:.04em}
+.card-info small{display:block;margin-top:7px;color:var(--ink-dim);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase}
+.card-price{font-family:var(--serif);color:var(--gold);font-size:1.05rem;white-space:nowrap}
+
+/* ---------- manifiesto ---------- */
+.manifesto{background:var(--bg-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.manifesto-inner{max-width:1000px;margin:0 auto;text-align:center}
+.manifesto p.big{
+  font-family:var(--serif);font-size:clamp(1.6rem,3.6vw,3rem);line-height:1.45;font-weight:400;
+}
+.manifesto p.big .w{opacity:.14;transition:opacity .6s ease;display:inline}
+.manifesto p.big .w.lit{opacity:1}
+.manifesto p.big em{font-style:italic;color:var(--gold)}
+.manifesto-sign{
+  margin-top:52px;font-family:var(--serif);font-style:italic;font-size:1.15rem;color:var(--ink-dim);
+}
+
+/* ---------- cifras ---------- */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.stat{background:var(--bg);padding:clamp(36px,5vw,64px) 28px;text-align:center}
+.stat b{font-family:var(--serif);font-weight:400;font-size:clamp(2.4rem,4.5vw,3.8rem);color:var(--ink);display:block}
+.stat b i{font-style:normal;color:var(--gold)}
+.stat span{display:block;margin-top:14px;font-size:.62rem;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-dim)}
+
+/* ---------- lookbook ---------- */
+.lookbook{padding-left:0;padding-right:0;overflow:hidden}
+.lookbook .section-head{padding:0 clamp(20px,6vw,80px)}
+.look-track{display:flex;gap:clamp(16px,2vw,30px);width:max-content;padding:0 clamp(20px,6vw,80px);will-change:transform}
+.look{
+  position:relative;width:clamp(240px,28vw,380px);aspect-ratio:3/4.2;flex-shrink:0;
+  overflow:hidden;border:1px solid var(--line);background:var(--bg-card);
+}
+.look svg{width:100%;height:100%;display:block}
+.look figcaption{
+  position:absolute;left:0;right:0;bottom:0;padding:20px;
+  background:linear-gradient(transparent,rgba(11,10,9,.9));
+  font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ink);
+  display:flex;justify-content:space-between;
+}
+.look figcaption i{font-style:normal;color:var(--gold)}
+
+/* ---------- atelier / materiales ---------- */
+.atelier{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,100px);align-items:center}
+@media (max-width:860px){.atelier{grid-template-columns:1fr}}
+.atelier-list{list-style:none;display:flex;flex-direction:column}
+.atelier-list li{
+  display:flex;align-items:baseline;justify-content:space-between;gap:20px;
+  padding:26px 6px;border-bottom:1px solid var(--line);transition:padding .35s ease,background .35s ease;
+}
+.atelier-list li:first-child{border-top:1px solid var(--line)}
+.atelier-list li:hover{padding-left:20px;background:rgba(201,168,106,.04)}
+.atelier-list h4{font-family:var(--serif);font-weight:400;font-size:1.3rem}
+.atelier-list p{color:var(--ink-dim);font-size:.75rem;letter-spacing:.08em;max-width:280px;text-align:right;line-height:1.7}
+.atelier-visual{position:relative;aspect-ratio:1;border:1px solid var(--line);overflow:hidden;background:var(--bg-card)}
+#atelierCanvas{width:100%;height:100%;display:block}
+
+/* ---------- newsletter / cierre ---------- */
+.cta-final{text-align:center;background:var(--bg-soft);border-top:1px solid var(--line)}
+.cta-final h2{margin-bottom:26px}
+.cta-final p{color:var(--ink-dim);font-size:.85rem;letter-spacing:.08em;max-width:440px;margin:0 auto 44px;line-height:1.9}
+.news-form{display:flex;max-width:460px;margin:0 auto;border:1px solid var(--gold-soft)}
+.news-form input{
+  flex:1;background:transparent;border:0;outline:0;color:var(--ink);
+  padding:18px 22px;font-size:.8rem;letter-spacing:.1em;font-family:var(--sans);
+}
+.news-form input::placeholder{color:var(--ink-dim)}
+.news-form button{
+  background:var(--gold);border:0;color:#0b0a09;padding:0 30px;
+  font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;transition:background .3s;
+}
+.news-form button:hover{background:var(--ink)}
+.news-ok{margin-top:18px;color:var(--gold);font-size:.75rem;letter-spacing:.2em;min-height:1em}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding:60px clamp(20px,6vw,80px) 40px}
+.foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:56px}
+.foot-brand{font-family:var(--serif);font-size:1.6rem;letter-spacing:.35em}
+.foot-brand em{color:var(--gold);font-style:normal}
+.foot-cols{display:flex;gap:clamp(40px,6vw,100px);flex-wrap:wrap}
+.foot-cols h5{font-size:.62rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.foot-cols a{display:block;color:var(--ink-dim);font-size:.78rem;margin-bottom:12px;letter-spacing:.06em;transition:color .3s}
+.foot-cols a:hover{color:var(--ink)}
+.foot-base{
+  display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  border-top:1px solid var(--line);padding-top:28px;
+  font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<!-- cursor -->
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<!-- preloader -->
+<div id="loader">
+  <div class="mark">AURA</div>
+  <div class="bar"><i id="loaderBar"></i></div>
+</div>
+
+<!-- navegación -->
+<nav id="nav">
+  <a class="nav-logo" href="#top">MAISON <em>AURA</em></a>
+  <ul class="nav-links">
+    <li><a href="#coleccion">Colección</a></li>
+    <li><a href="#manifiesto">Manifiesto</a></li>
+    <li><a href="#lookbook">Lookbook</a></li>
+    <li><a href="#atelier">Atelier</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Cita privada</button>
+</nav>
+
+<!-- hero -->
+<header class="hero" id="top">
+  <canvas id="stage"></canvas>
+  <div class="hero-veil"></div>
+  <div class="hero-frame">
+    <span class="hero-corner tl"></span><span class="hero-corner tr"></span>
+    <span class="hero-corner bl"></span><span class="hero-corner br"></span>
+  </div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Colección Otoño · Noir Éternel</p>
+    <h1 class="hero-title">
+      <span class="row"><span>MAISON</span></span>
+      <span class="row"><span>AURA</span></span>
+    </h1>
+    <p class="hero-sub">Prendas esculpidas en silencio. Alta costura contemporánea para quienes no siguen la moda: la habitan.</p>
+  </div>
+  <div class="hero-scroll"><i></i>Descubrir</div>
+</header>
+
+<!-- marquesina -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="marqueeTrack">
+    <span>Noir Éternel</span><span>Hecho a mano</span><span>Edición limitada</span>
+    <span>Seda &amp; Lana Merino</span><span>París · Madrid · Milán</span>
+  </div>
+</div>
+
+<!-- colección -->
+<section id="coleccion">
+  <div class="section-head reveal">
+    <div>
+      <p class="kicker">Capítulo I</p>
+      <h2 class="title">La <em>Colección</em></h2>
+    </div>
+    <p>Doce piezas por temporada. Ni una más. Cada silueta se corta, entalla y termina a mano en nuestro atelier.</p>
+  </div>
+
+  <div class="grid">
+    <article class="card reveal" data-tilt>
+      <span class="card-tag">Nº 01</span>
+      <div class="card-visual">
+        <svg viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#1d1813"/><stop offset="1" stop-color="#0e0c0a"/>
+            </linearGradient>
+          </defs>
+          <rect width="300" height="400" fill="url(#g1)"/>
+          <path d="M150 60 C110 100 96 180 108 340 L192 340 C204 180 190 100 150 60 Z"
+                fill="none" stroke="#c9a86a" stroke-width="1.1" opacity=".9"/>
+          <path d="M150 60 C130 120 126 220 132 340 M150 60 C170 120 174 220 168 340"
+                fill="none" stroke="#c9a86a" stroke-width=".5" opacity=".45"/>
+          <circle cx="150" cy="52" r="10" fill="none" stroke="#c9a86a" stroke-width="1" opacity=".8"/>
+          <line x1="40" y1="370" x2="260" y2="370" stroke="#8a744d" stroke-width=".6" opacity=".5"/>
+        </svg>
+        <div class="card-shine"></div>
+      </div>
+      <div class="card-info">
+        <div><h3>Vestido Éclipse</h3><small>Seda charmeuse · negro tinta</small></div>
+        <span class="card-price">1.890 €</span>
+      </div>
+    </article>
+
+    <article class="card reveal" data-tilt>
+      <span class="card-tag">Nº 02</span>
+      <div class="card-visual">
+        <svg viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice">
+          <rect width="300" height="400" fill="url(#g1)"/>
+          <path d="M95 90 L150 65 L205 90 L214 350 L86 350 Z"
+                fill="none" stroke="#c9a86a" stroke-width="1.1" opacity=".9"/>
+          <path d="M150 65 L150 350 M95 90 L118 130 L150 112 L182 130 L205 90"
+                fill="none" stroke="#c9a86a" stroke-width=".5" opacity=".45"/>
+          <line x1="118" y1="130" x2="112" y2="350" stroke="#c9a86a" stroke-width=".4" opacity=".35"/>
+          <line x1="182" y1="130" x2="188" y2="350" stroke="#c9a86a" stroke-width=".4" opacity=".35"/>
+        </svg>
+        <div class="card-shine"></div>
+      </div>
+      <div class="card-info">
+        <div><h3>Abrigo Minuit</h3><small>Lana merino doble faz</small></div>
+        <span class="card-price">2.450 €</span>
+      </div>
+    </article>
+
+    <article class="card reveal" data-tilt>
+      <span class="card-tag">Nº 03</span>
+      <div class="card-visual">
+        <svg viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice">
+          <rect width="300" height="400" fill="url(#g1)"/>
+          <path d="M112 80 Q150 62 188 80 L196 200 Q150 216 104 200 Z"
+                fill="none" stroke="#c9a86a" stroke-width="1.1" opacity=".9"/>
+          <path d="M104 205 L96 355 L204 355 L196 205"
+                fill="none" stroke="#c9a86a" stroke-width="1.1" opacity=".9"/>
+          <path d="M150 70 L150 355 M120 240 L180 240 M116 300 L184 300"
+                fill="none" stroke="#c9a86a" stroke-width=".45" opacity=".4"/>
+        </svg>
+        <div class="card-shine"></div>
+      </div>
+      <div class="card-info">
+        <div><h3>Conjunto Ombre</h3><small>Crepé de lana · dos piezas</small></div>
+        <span class="card-price">1.640 €</span>
+      </div>
+    </article>
+
+    <article class="card reveal" data-tilt>
+      <span class="card-tag">Nº 04</span>
+      <div class="card-visual">
+        <svg viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice">
+          <rect width="300" height="400" fill="url(#g1)"/>
+          <path d="M150 58 C118 88 108 150 112 205 C90 260 92 320 118 356 L182 356 C208 320 210 260 188 205 C192 150 182 88 150 58 Z"
+                fill="none" stroke="#c9a86a" stroke-width="1.1" opacity=".9"/>
+          <path d="M112 205 Q150 190 188 205" fill="none" stroke="#c9a86a" stroke-width=".6" opacity=".55"/>
+          <path d="M132 220 Q128 300 130 356 M168 220 Q172 300 170 356"
+                fill="none" stroke="#c9a86a" stroke-width=".45" opacity=".4"/>
+        </svg>
+        <div class="card-shine"></div>
+      </div>
+      <div class="card-info">
+        <div><h3>Gabardina Reverie</h3><small>Algodón encerado · marfil</small></div>
+        <span class="card-price">1.980 €</span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- manifiesto -->
+<section class="manifesto" id="manifiesto">
+  <div class="manifesto-inner">
+    <p class="kicker reveal" style="justify-content:center">Capítulo II — Manifiesto</p>
+    <p class="big" id="manifestoText">La ropa no debería gritar. Debería <em>susurrar</em> quién eres antes de que digas una sola palabra. Cortamos poco, cosemos despacio y vestimos para <em>siempre</em>.</p>
+    <p class="manifesto-sign reveal">— Aura Deveraux, directora creativa</p>
+  </div>
+</section>
+
+<!-- cifras -->
+<section>
+  <div class="stats reveal">
+    <div class="stat"><b data-count="1987">0</b><span>Fundación del atelier</span></div>
+    <div class="stat"><b><i data-count="12">0</i></b><span>Piezas por colección</span></div>
+    <div class="stat"><b data-count="214">0</b><span>Horas por prenda</span></div>
+    <div class="stat"><b><i data-count="3">0</i></b><span>Maisons en Europa</span></div>
+  </div>
+</section>
+
+<!-- lookbook -->
+<section class="lookbook" id="lookbook">
+  <div class="section-head reveal">
+    <div>
+      <p class="kicker">Capítulo III</p>
+      <h2 class="title">Look<em>book</em></h2>
+    </div>
+    <p>Fotografiado en la Ópera Garnier al amanecer. Desliza — la escena se mueve contigo.</p>
+  </div>
+  <div class="look-track" id="lookTrack">
+    <figure class="look">
+      <svg viewBox="0 0 300 420" preserveAspectRatio="xMidYMid slice">
+        <rect width="300" height="420" fill="#14100d"/>
+        <circle cx="150" cy="150" r="86" fill="none" stroke="#c9a86a" stroke-width=".7" opacity=".5"/>
+        <path d="M150 96 C122 130 116 190 122 300 L178 300 C184 190 178 130 150 96 Z" fill="#0b0a09" stroke="#c9a86a" stroke-width="1"/>
+        <line x1="30" y1="330" x2="270" y2="330" stroke="#8a744d" stroke-width=".6" opacity=".6"/>
+      </svg>
+      <figcaption><span>Look 01</span><i>Éclipse</i></figcaption>
+    </figure>
+    <figure class="look">
+      <svg viewBox="0 0 300 420" preserveAspectRatio="xMidYMid slice">
+        <rect width="300" height="420" fill="#120f0c"/>
+        <path d="M60 60 L60 340 M110 40 L110 340 M240 80 L240 340" stroke="#8a744d" stroke-width=".5" opacity=".5"/>
+        <path d="M150 110 L118 140 L126 330 L174 330 L182 140 Z" fill="#0b0a09" stroke="#c9a86a" stroke-width="1"/>
+        <circle cx="150" cy="96" r="12" fill="none" stroke="#c9a86a" stroke-width=".8"/>
+      </svg>
+      <figcaption><span>Look 02</span><i>Minuit</i></figcaption>
+    </figure>
+    <figure class="look">
+      <svg viewBox="0 0 300 420" preserveAspectRatio="xMidYMid slice">
+        <rect width="300" height="420" fill="#15110e"/>
+        <path d="M0 320 Q150 260 300 320 L300 420 L0 420 Z" fill="#0e0b09" opacity=".9"/>
+        <path d="M150 120 C130 150 128 200 134 310 L166 310 C172 200 170 150 150 120 Z" fill="#0b0a09" stroke="#c9a86a" stroke-width="1"/>
+        <circle cx="222" cy="86" r="26" fill="none" stroke="#c9a86a" stroke-width=".6" opacity=".7"/>
+      </svg>
+      <figcaption><span>Look 03</span><i>Ombre</i></figcaption>
+    </figure>
+    <figure class="look">
+      <svg viewBox="0 0 300 420" preserveAspectRatio="xMidYMid slice">
+        <rect width="300" height="420" fill="#13100d"/>
+        <path d="M40 0 L40 420 M80 0 L80 420" stroke="#8a744d" stroke-width=".4" opacity=".4"/>
+        <path d="M150 100 C120 140 112 210 120 330 L180 330 C188 210 180 140 150 100 Z" fill="#0b0a09" stroke="#c9a86a" stroke-width="1"/>
+        <path d="M120 210 Q150 198 180 210" stroke="#c9a86a" stroke-width=".5" fill="none" opacity=".6"/>
+      </svg>
+      <figcaption><span>Look 04</span><i>Reverie</i></figcaption>
+    </figure>
+    <figure class="look">
+      <svg viewBox="0 0 300 420" preserveAspectRatio="xMidYMid slice">
+        <rect width="300" height="420" fill="#141009"/>
+        <circle cx="150" cy="210" r="120" fill="none" stroke="#8a744d" stroke-width=".5" opacity=".5"/>
+        <circle cx="150" cy="210" r="80" fill="none" stroke="#c9a86a" stroke-width=".5" opacity=".5"/>
+        <path d="M150 130 C134 160 130 220 136 300 L164 300 C170 220 166 160 150 130 Z" fill="#0b0a09" stroke="#c9a86a" stroke-width="1"/>
+      </svg>
+      <figcaption><span>Look 05</span><i>Aurore</i></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- atelier -->
+<section id="atelier">
+  <div class="section-head reveal">
+    <div>
+      <p class="kicker">Capítulo IV</p>
+      <h2 class="title">El <em>Atelier</em></h2>
+    </div>
+    <p>Materia prima trazable, manos expertas y un torso 3D que gira mientras decides. Toca el lienzo.</p>
+  </div>
+  <div class="atelier">
+    <ul class="atelier-list reveal">
+      <li><h4>Seda charmeuse</h4><p>Hilada en Como, Italia. 22 momme. Caída líquida, brillo de luna.</p></li>
+      <li><h4>Lana merino</h4><p>Mulesing-free, de estancias certificadas en la Patagonia.</p></li>
+      <li><h4>Botonería</h4><p>Cuerno natural pulido a mano. Ningún plástico, nunca.</p></li>
+      <li><h4>Tinte botánico</h4><p>Negro de campeche y oro de cúrcuma. Baños lentos, color eterno.</p></li>
+    </ul>
+    <div class="atelier-visual reveal">
+      <canvas id="atelierCanvas"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- cierre -->
+<section class="cta-final" id="contacto">
+  <p class="kicker reveal" style="justify-content:center">Círculo privado</p>
+  <h2 class="title reveal">Entra al <em>círculo</em></h2>
+  <p class="reveal">Acceso anticipado a cada colección, invitaciones al atelier y piezas que jamás llegan a la web.</p>
+  <form class="news-form reveal" id="newsForm">
+    <input type="email" placeholder="tu@correo.com" required aria-label="Correo electrónico">
+    <button type="submit">Unirme</button>
+  </form>
+  <p class="news-ok" id="newsOk"></p>
+</section>
+
+<!-- footer -->
+<footer>
+  <div class="foot-top">
+    <div>
+      <p class="foot-brand">MAISON <em>AURA</em></p>
+      <p style="margin-top:16px;color:var(--ink-dim);font-size:.75rem;letter-spacing:.08em;max-width:260px;line-height:1.8">
+        Rue de Sévigné 14, París · Calle Claudio Coello 21, Madrid · Via della Spiga 9, Milán.
+      </p>
+    </div>
+    <div class="foot-cols">
+      <div>
+        <h5>Maison</h5>
+        <a href="#coleccion">Colección</a>
+        <a href="#lookbook">Lookbook</a>
+        <a href="#atelier">Atelier</a>
+      </div>
+      <div>
+        <h5>Atención</h5>
+        <a href="#contacto">Cita privada</a>
+        <a href="#contacto">Envíos y devoluciones</a>
+        <a href="#contacto">Cuidado de prendas</a>
+      </div>
+      <div>
+        <h5>Síguenos</h5>
+        <a href="#" rel="noopener">Instagram</a>
+        <a href="#" rel="noopener">Pinterest</a>
+        <a href="#" rel="noopener">Journal</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot-base">
+    <span>© 2026 Maison Aura</span>
+    <span>Hecho despacio, para durar</span>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   MAISON AURA — interacción y 3D
+   ============================================================ */
+(function(){
+"use strict";
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- preloader ---------- */
+const loader = document.getElementById("loader");
+const loaderBar = document.getElementById("loaderBar");
+let progress = 0;
+const loadTick = setInterval(()=>{
+  progress = Math.min(100, progress + 8 + Math.random()*14);
+  loaderBar.style.width = progress + "%";
+  if(progress >= 100){
+    clearInterval(loadTick);
+    setTimeout(()=>loader.classList.add("done"), 250);
+  }
+}, 90);
+
+/* ---------- cursor personalizado ---------- */
+const dot = document.querySelector(".cursor-dot");
+const ring = document.querySelector(".cursor-ring");
+let mx = innerWidth/2, my = innerHeight/2, rx = mx, ry = my;
+addEventListener("mousemove", e=>{
+  mx = e.clientX; my = e.clientY;
+  dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`;
+});
+(function ringLoop(){
+  rx += (mx-rx)*0.16; ry += (my-ry)*0.16;
+  ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+  requestAnimationFrame(ringLoop);
+})();
+document.querySelectorAll("a,button,.card,.look").forEach(el=>{
+  el.addEventListener("mouseenter",()=>document.body.classList.add("cursor-hover"));
+  el.addEventListener("mouseleave",()=>document.body.classList.remove("cursor-hover"));
+});
+
+/* ---------- nav al hacer scroll ---------- */
+const nav = document.getElementById("nav");
+addEventListener("scroll", ()=>nav.classList.toggle("scrolled", scrollY > 40), {passive:true});
+
+/* ---------- duplicar marquesina para bucle perfecto ---------- */
+const track = document.getElementById("marqueeTrack");
+track.innerHTML += track.innerHTML;
+
+/* ============================================================
+   HERO 3D — vestido de partículas + campo de estrellas
+   Motor de proyección 3D propio sobre canvas 2D (sin librerías)
+   ============================================================ */
+const stage = document.getElementById("stage");
+const ctx = stage.getContext("2d");
+let W, H, DPR;
+
+function resizeStage(){
+  DPR = Math.min(devicePixelRatio || 1, 2);
+  W = stage.clientWidth; H = stage.clientHeight;
+  stage.width = W * DPR; stage.height = H * DPR;
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+}
+resizeStage();
+addEventListener("resize", resizeStage);
+
+/* silueta del vestido: radio según altura t∈[0,1] (cuello→bajo) */
+function dressRadius(t){
+  const neck = 0.055, shoulder = 0.185, waist = 0.105, hip = 0.17, hem = 0.52;
+  if(t < 0.09)  return neck + (shoulder-neck) * (t/0.09);
+  if(t < 0.34)  return shoulder + (waist-shoulder) * ((t-0.09)/0.25);
+  if(t < 0.52)  return waist + (hip-waist) * ((t-0.34)/0.18);
+  const u = (t-0.52)/0.48;
+  return hip + (hem-hip) * u*u*0.9 + hem*0.1*u;   /* falda acampanada */
+}
+
+/* construir anillos de puntos del vestido */
+const RINGS = 46, SEGS = 64;
+const dressPts = [];
+for(let i=0;i<RINGS;i++){
+  const t = i/(RINGS-1);
+  const r = dressRadius(t);
+  const y = 0.95 - t*2.05;             /* de arriba (+) a abajo (−) */
+  for(let j=0;j<SEGS;j++){
+    const a = (j/SEGS)*Math.PI*2;
+    /* ondulación sutil del bajo */
+    const wave = t>0.6 ? Math.sin(a*6)*0.018*(t-0.6)/0.4 : 0;
+    dressPts.push({x:Math.cos(a)*(r+wave), y, z:Math.sin(a)*(r+wave), t, j, i});
+  }
+}
+/* partículas de fondo */
+const stars = Array.from({length:150},()=>({
+  x:(Math.random()-0.5)*6, y:(Math.random()-0.5)*3.6, z:(Math.random()-0.5)*6,
+  s:Math.random()*1.4+0.3, tw:Math.random()*Math.PI*2
+}));
+
+let pointerX = 0, pointerY = 0;
+addEventListener("mousemove", e=>{
+  pointerX = (e.clientX / innerWidth - 0.5) * 2;
+  pointerY = (e.clientY / innerHeight - 0.5) * 2;
+});
+addEventListener("touchmove", e=>{
+  const t0 = e.touches[0];
+  if(t0){ pointerX = (t0.clientX/innerWidth-0.5)*2; pointerY = (t0.clientY/innerHeight-0.5)*2; }
+},{passive:true});
+
+const FOV = 3.2;
+function project(x,y,z,cx,cy,scale){
+  const d = FOV / (FOV + z);
+  return [cx + x*d*scale, cy - y*d*scale, d];   /* eje Y del canvas apunta hacia abajo */
+}
+function rotY(p, a){
+  const c=Math.cos(a), s=Math.sin(a);
+  return {x:p.x*c - p.z*s, y:p.y, z:p.x*s + p.z*c};
+}
+function rotX(p, a){
+  const c=Math.cos(a), s=Math.sin(a);
+  return {x:p.x, y:p.y*c - p.z*s, z:p.y*s + p.z*c};
+}
+
+let heroVisible = true;
+new IntersectionObserver(en=>{heroVisible = en[0].isIntersecting},{threshold:0}).observe(stage);
+
+let T = 0, smX = 0, smY = 0;
+function drawHero(){
+  requestAnimationFrame(drawHero);
+  if(!heroVisible) return;
+  T += reduceMotion ? 0 : 0.005;
+  smX += (pointerX - smX)*0.05;
+  smY += (pointerY - smY)*0.05;
+
+  ctx.clearRect(0,0,W,H);
+  const cx = W/2, cy = H*0.5, scale = Math.min(W,H)*0.42;
+  const spin = T*0.9 + smX*0.9;
+  const tilt = 0.12 + smY*0.18;
+
+  /* estrellas */
+  for(const st of stars){
+    let p = rotY(st, T*0.12);
+    p = rotX(p, tilt*0.4);
+    const [sx,sy,d] = project(p.x,p.y,p.z,cx,cy,scale*0.9);
+    if(d<=0) continue;
+    const alpha = (0.12 + 0.35*Math.abs(Math.sin(T*1.4+st.tw))) * d * 0.6;
+    ctx.fillStyle = `rgba(201,168,106,${alpha.toFixed(3)})`;
+    ctx.fillRect(sx, sy, st.s*d, st.s*d);
+  }
+
+  /* vestido: líneas verticales (costuras) */
+  ctx.lineWidth = 0.6;
+  for(let j=0;j<SEGS;j+=4){
+    ctx.beginPath();
+    let started = false;
+    for(let i=0;i<RINGS;i++){
+      const pt = dressPts[i*SEGS+j];
+      let p = rotY(pt, spin); p = rotX(p, tilt);
+      const [sx,sy,d] = project(p.x,p.y,p.z,cx,cy,scale);
+      if(!started){ ctx.moveTo(sx,sy); started = true; } else ctx.lineTo(sx,sy);
+    }
+    ctx.strokeStyle = "rgba(201,168,106,0.16)";
+    ctx.stroke();
+  }
+  /* vestido: anillos horizontales */
+  for(let i=0;i<RINGS;i+=3){
+    ctx.beginPath();
+    for(let j=0;j<=SEGS;j++){
+      const pt = dressPts[i*SEGS + (j%SEGS)];
+      let p = rotY(pt, spin); p = rotX(p, tilt);
+      const [sx,sy] = project(p.x,p.y,p.z,cx,cy,scale);
+      j===0 ? ctx.moveTo(sx,sy) : ctx.lineTo(sx,sy);
+    }
+    ctx.strokeStyle = "rgba(236,229,218,0.10)";
+    ctx.stroke();
+  }
+  /* vestido: partículas brillantes */
+  for(let k=0;k<dressPts.length;k+=3){
+    const pt = dressPts[k];
+    let p = rotY(pt, spin); p = rotX(p, tilt);
+    const [sx,sy,d] = project(p.x,p.y,p.z,cx,cy,scale);
+    const glow = Math.max(0,(d-0.75))*2.4;           /* más cerca = más brillo */
+    const shimmer = 0.5 + 0.5*Math.sin(T*3 + pt.j*0.4 + pt.i*0.3);
+    const a = Math.min(0.9, (0.10 + glow*0.55) * (0.55 + shimmer*0.45));
+    ctx.fillStyle = `rgba(201,168,106,${a.toFixed(3)})`;
+    const s = Math.max(0.6, 1.8*d);
+    ctx.fillRect(sx-s/2, sy-s/2, s, s);
+  }
+}
+drawHero();
+
+/* ============================================================
+   ATELIER 3D — torso/busto giratorio de alambre, arrastrable
+   ============================================================ */
+const ac = document.getElementById("atelierCanvas");
+const actx = ac.getContext("2d");
+let aW, aH;
+function resizeAtelier(){
+  const dpr = Math.min(devicePixelRatio||1, 2);
+  aW = ac.clientWidth; aH = ac.clientHeight;
+  ac.width = aW*dpr; ac.height = aH*dpr;
+  actx.setTransform(dpr,0,0,dpr,0,0);
+}
+resizeAtelier();
+addEventListener("resize", resizeAtelier);
+
+/* perfil de busto de costura */
+function bustRadius(t){
+  const pts = [[0,0.05],[0.06,0.13],[0.18,0.20],[0.34,0.155],[0.5,0.19],[0.62,0.16],[0.75,0.05],[1,0.03]];
+  for(let i=1;i<pts.length;i++){
+    if(t<=pts[i][0]){
+      const [t0,r0]=pts[i-1],[t1,r1]=pts[i];
+      const u=(t-t0)/(t1-t0);
+      return r0+(r1-r0)*(u*u*(3-2*u));   /* smoothstep */
+    }
+  }
+  return 0.03;
+}
+const B_RINGS=30, B_SEGS=40, bustPts=[];
+for(let i=0;i<B_RINGS;i++){
+  const t=i/(B_RINGS-1), r=bustRadius(t), y=0.72 - t*1.5;
+  for(let j=0;j<B_SEGS;j++){
+    const a=(j/B_SEGS)*Math.PI*2;
+    bustPts.push({x:Math.cos(a)*r, y, z:Math.sin(a)*r});
+  }
+}
+let bustSpin=0.6, bustVel=0.008, dragging=false, lastX=0;
+ac.addEventListener("pointerdown",e=>{dragging=true;lastX=e.clientX;ac.setPointerCapture(e.pointerId)});
+ac.addEventListener("pointermove",e=>{
+  if(!dragging) return;
+  const dx=e.clientX-lastX; lastX=e.clientX;
+  bustVel = dx*0.0035;
+  bustSpin += bustVel;
+});
+ac.addEventListener("pointerup",()=>dragging=false);
+ac.addEventListener("pointercancel",()=>dragging=false);
+
+let atelierVisible=false;
+new IntersectionObserver(en=>{atelierVisible=en[0].isIntersecting},{threshold:0}).observe(ac);
+
+function drawAtelier(){
+  requestAnimationFrame(drawAtelier);
+  if(!atelierVisible) return;
+  if(!dragging){
+    bustVel += (0.008-bustVel)*0.02;   /* vuelve suavemente a la rotación base */
+    bustSpin += reduceMotion ? 0 : bustVel;
+  }
+  actx.clearRect(0,0,aW,aH);
+  const cx=aW/2, cy=aH*0.46, scale=Math.min(aW,aH)*0.44;
+
+  /* peana */
+  actx.beginPath();
+  for(let j=0;j<=B_SEGS;j++){
+    const a=(j/B_SEGS)*Math.PI*2;
+    let p=rotY({x:Math.cos(a)*0.22,y:-0.95,z:Math.sin(a)*0.22},bustSpin);
+    const [sx,sy]=project(p.x,p.y,p.z,cx,cy,scale);
+    j===0?actx.moveTo(sx,sy):actx.lineTo(sx,sy);
+  }
+  actx.strokeStyle="rgba(138,116,77,.5)"; actx.lineWidth=1; actx.stroke();
+  actx.beginPath();
+  {
+    let p1=rotY({x:0,y:-0.95,z:0},bustSpin), p2=rotY({x:0,y:-0.5,z:0},bustSpin);
+    const [x1,y1]=project(p1.x,p1.y,p1.z,cx,cy,scale);
+    const [x2,y2]=project(p2.x,p2.y,p2.z,cx,cy,scale);
+    actx.moveTo(x1,y1);actx.lineTo(x2,y2);
+  }
+  actx.stroke();
+
+  /* costuras verticales */
+  actx.lineWidth=0.6;
+  for(let j=0;j<B_SEGS;j+=2){
+    actx.beginPath();
+    for(let i=0;i<B_RINGS;i++){
+      const pt=bustPts[i*B_SEGS+j];
+      const p=rotY(pt,bustSpin);
+      const [sx,sy,d]=project(p.x,p.y,p.z,cx,cy,scale);
+      i===0?actx.moveTo(sx,sy):actx.lineTo(sx,sy);
+    }
+    actx.strokeStyle="rgba(201,168,106,.22)"; actx.stroke();
+  }
+  /* anillos */
+  for(let i=0;i<B_RINGS;i+=2){
+    actx.beginPath();
+    for(let j=0;j<=B_SEGS;j++){
+      const pt=bustPts[i*B_SEGS+(j%B_SEGS)];
+      const p=rotY(pt,bustSpin);
+      const [sx,sy]=project(p.x,p.y,p.z,cx,cy,scale);
+      j===0?actx.moveTo(sx,sy):actx.lineTo(sx,sy);
+    }
+    actx.strokeStyle="rgba(236,229,218,.14)"; actx.stroke();
+  }
+}
+drawAtelier();
+
+/* ============================================================
+   Tarjetas con inclinación 3D + brillo que sigue al ratón
+   ============================================================ */
+document.querySelectorAll("[data-tilt]").forEach(card=>{
+  const shine = card.querySelector(".card-shine");
+  card.addEventListener("mousemove", e=>{
+    const r = card.getBoundingClientRect();
+    const px = (e.clientX - r.left)/r.width  - 0.5;
+    const py = (e.clientY - r.top)/r.height - 0.5;
+    card.style.transform = `rotateY(${px*14}deg) rotateX(${-py*14}deg) translateZ(6px)`;
+    if(shine){
+      shine.style.setProperty("--mx", ((px+0.5)*100)+"%");
+      shine.style.setProperty("--my", ((py+0.5)*100)+"%");
+    }
+  });
+  card.addEventListener("mouseleave", ()=>{
+    card.style.transition = "transform .6s cubic-bezier(.19,1,.22,1)";
+    card.style.transform = "rotateY(0) rotateX(0) translateZ(0)";
+    setTimeout(()=>card.style.transition="", 600);
+  });
+});
+
+/* ---------- reveal on scroll ---------- */
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
+},{threshold:0.15});
+document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+
+/* ---------- manifiesto: palabras que se iluminan ---------- */
+const mani = document.getElementById("manifestoText");
+mani.innerHTML = mani.innerHTML.split(/(<em>.*?<\/em>)|(\s+)/g).filter(Boolean).map(part=>{
+  if(part.startsWith("<em>")) return `<span class="w">${part}</span>`;
+  if(/^\s+$/.test(part)) return " ";
+  return `<span class="w">${part}</span>`;
+}).join("");
+const words = [...mani.querySelectorAll(".w")];
+function lightWords(){
+  const r = mani.getBoundingClientRect();
+  const prog = Math.min(1, Math.max(0, (innerHeight*0.85 - r.top) / (r.height + innerHeight*0.4)));
+  const n = Math.floor(prog * words.length);
+  words.forEach((w,i)=>w.classList.toggle("lit", i < n));
+}
+addEventListener("scroll", lightWords, {passive:true});
+lightWords();
+
+/* ---------- contadores ---------- */
+const statIO = new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if(!en.isIntersecting) return;
+    statIO.unobserve(en.target);
+    const target = +en.target.dataset.count;
+    const t0 = performance.now(), dur = 1600;
+    (function tick(now){
+      const p = Math.min(1,(now-t0)/dur);
+      en.target.textContent = Math.round(target * (1-Math.pow(1-p,3)));
+      if(p<1) requestAnimationFrame(tick);
+    })(t0);
+  });
+},{threshold:0.5});
+document.querySelectorAll("[data-count]").forEach(el=>statIO.observe(el));
+
+/* ---------- lookbook: desplazamiento horizontal ligado al scroll ---------- */
+const lookTrack = document.getElementById("lookTrack");
+function moveLook(){
+  const sec = lookTrack.closest("section");
+  const r = sec.getBoundingClientRect();
+  const prog = Math.min(1, Math.max(0, (innerHeight - r.top) / (innerHeight + r.height)));
+  const overflow = lookTrack.scrollWidth - innerWidth;
+  if(overflow > 0) lookTrack.style.transform = `translateX(${-prog*overflow}px)`;
+}
+addEventListener("scroll", moveLook, {passive:true});
+addEventListener("resize", moveLook);
+moveLook();
+
+/* ---------- newsletter ---------- */
+document.getElementById("newsForm").addEventListener("submit", e=>{
+  e.preventDefault();
+  const input = e.target.querySelector("input");
+  document.getElementById("newsOk").textContent = "Bienvenida/o al círculo. Revisa tu correo ✦";
+  input.value = "";
+});
+})();
+</script>
+</body>
+</html>
