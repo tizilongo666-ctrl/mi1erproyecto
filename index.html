@@ -5,6 +5,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MAISON AURA — Alta Costura Contemporánea</title>
 <meta name="description" content="MAISON AURA. Prendas esculpidas para quienes habitan la elegancia. Colección Noir Éternel. Tienda online, lookbook y atelier.">
+
+<!-- SEO / compartir en redes -->
+<link rel="canonical" href="https://tizilongo666-ctrl.github.io/mi1erproyecto/">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0b0a09">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Maison Aura">
+<meta property="og:title" content="MAISON AURA — Alta Costura Contemporánea">
+<meta property="og:description" content="Prendas esculpidas en silencio. Doce piezas por temporada, hechas a mano en París, Madrid y Milán.">
+<meta property="og:url" content="https://tizilongo666-ctrl.github.io/mi1erproyecto/">
+<meta property="og:image" content="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1200&q=80">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MAISON AURA — Alta Costura Contemporánea">
+<meta name="twitter:description" content="Prendas esculpidas en silencio. Doce piezas por temporada, hechas a mano.">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1200&q=80">
+
+<!-- favicon: monograma MA dorado -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230b0a09'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Georgia,serif' font-size='28' fill='%23c9a86a'%3EMA%3C/text%3E%3C/svg%3E">
+
+<!-- datos estructurados para Google -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ClothingStore",
+  "name": "Maison Aura",
+  "description": "Alta costura contemporánea. Doce piezas por temporada, hechas a mano.",
+  "url": "https://tizilongo666-ctrl.github.io/mi1erproyecto/",
+  "priceRange": "€€€",
+  "address": [
+    {"@type": "PostalAddress", "streetAddress": "Rue de Sévigné 14", "addressLocality": "París", "addressCountry": "FR"},
+    {"@type": "PostalAddress", "streetAddress": "Claudio Coello 21", "addressLocality": "Madrid", "addressCountry": "ES"},
+    {"@type": "PostalAddress", "streetAddress": "Via della Spiga 9", "addressLocality": "Milán", "addressCountry": "IT"}
+  ]
+}
+</script>
 <style>
 /* ============================================================
    MAISON AURA — hoja de estilos
@@ -487,6 +523,8 @@ footer{border-top:1px solid var(--line);padding:60px clamp(20px,6vw,80px) 40px}
   border-top:1px solid var(--line);padding-top:28px;
   font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);
 }
+.foot-base a{transition:color .3s}
+.foot-base a:hover{color:var(--ink)}
 
 /* ---------- carrito (drawer) ---------- */
 #cartOverlay,#qvOverlay{
@@ -950,7 +988,12 @@ footer{border-top:1px solid var(--line);padding:60px clamp(20px,6vw,80px) 40px}
   </div>
   <div class="foot-base">
     <span>© 2026 Maison Aura</span>
-    <span>Aviso legal · Privacidad · Cookies</span>
+    <span>
+      <a href="legal.html#aviso-legal">Aviso legal</a> ·
+      <a href="legal.html#privacidad">Privacidad</a> ·
+      <a href="legal.html#cookies">Cookies</a> ·
+      <a href="legal.html#condiciones">Condiciones de venta</a>
+    </span>
     <span>Hecho despacio, para durar</span>
   </div>
 </footer>
@@ -1227,7 +1270,14 @@ cartItems.addEventListener("click", e=>{
   if(del){ cart.splice(+del.dataset.del,1); }
   if(dec||inc||del){ saveCart(); renderCart(); }
 });
+/* ── PAGO REAL ──────────────────────────────────────────────
+   Para cobrar de verdad: crea una cuenta en stripe.com, genera un
+   "Payment Link" y pega aquí la URL (https://buy.stripe.com/...).
+   Mientras esté vacío, el checkout muestra una confirmación simulada. */
+const PAYMENT_LINK = "";
+
 document.getElementById("checkoutBtn").addEventListener("click", ()=>{
+  if(PAYMENT_LINK){ location.href = PAYMENT_LINK; return; }
   const n = "AU-" + Math.random().toString(36).slice(2,8).toUpperCase();
   cart = []; saveCart(); renderCart();
   cartItems.innerHTML = `<div class="cart-done">
