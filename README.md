@@ -1,7 +1,7 @@
 # MOZAMBIQUE — Tienda de moda de lujo
 
 Web de marca de ropa de alta costura: hero con vestido 3D de partículas, tienda con
-carrito de compra, lookbook, atelier 3D interactivo, journal y FAQ. Un solo archivo
+carrito de compra, lookbook, taller 3D interactivo, journal y FAQ. Un solo archivo
 HTML sin dependencias — funciona en cualquier hosting estático.
 
 **Web en vivo:** https://tizilongo666-ctrl.github.io/mi1erproyecto/
@@ -22,7 +22,7 @@ HTML sin dependencias — funciona en cualquier hosting estático.
 Abre `index.html` y busca `PRODUCTS` (usa Ctrl+F). Cada producto es una línea:
 
 ```js
-{id:"eclipse", n:"Vestido Éclipse", cat:"vestidos", fab:"Seda charmeuse · negro tinta",
+{id:"eclipse", n:"Vestido Índico", cat:"vestidos", fab:"Seda charmeuse · negro tinta",
  p:1890, img:IMG("1539109136881-3be0616acf4b"), d:"Descripción larga..."},
 ```
 
