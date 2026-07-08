@@ -1,4 +1,4 @@
-# MAISON AURA — Tienda de moda de lujo
+# MOZAMBIQUE — Tienda de moda de lujo
 
 Web de marca de ropa de alta costura: hero con vestido 3D de partículas, tienda con
 carrito de compra, lookbook, atelier 3D interactivo, journal y FAQ. Un solo archivo
